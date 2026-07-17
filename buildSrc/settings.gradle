@@ -1,0 +1,12 @@
+pluginManagement {
+    repositories {
+        mavenLocal()
+        gradlePluginPortal()
+        maven { url = uri("https://maven.100media.dev/") }
+    }
+}
+
+plugins {
+    id 'com.nyfaria.moddingtools'
+}
+

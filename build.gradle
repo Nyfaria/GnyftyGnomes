@@ -1,0 +1,25 @@
+plugins {
+    alias(nyfs.plugins.loom) apply false
+    alias(nyfs.plugins.mdg) apply false
+    alias(nyfs.plugins.regutils)
+}
+
+configurations.all {
+    resolutionStrategy.cacheDynamicVersionsFor(1, "seconds")
+}
+
+registrationUtils {
+    group "com.nyfaria.${mod_id}.registration"
+    projects {
+        fabric {
+            type 'fabric'
+        }
+        forge {
+            type 'forge'
+        }
+        common {
+            type 'common'
+        }
+    }
+}
+

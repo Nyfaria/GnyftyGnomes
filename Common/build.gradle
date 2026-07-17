@@ -1,0 +1,46 @@
+plugins {
+    id 'multiloader-common'
+    alias(nyfs.plugins.mdg)
+    alias(nyfs.plugins.regutils.vanilla)
+}
+configurations.all {
+    resolutionStrategy.cacheDynamicVersionsFor(1, "seconds")
+}
+
+legacyForge {
+    mcpVersion = minecraft_version
+    def at = file('src/main/resources/META-INF/accesstransformer.cfg')
+    if (at.exists()) {
+        accessTransformers = [at]
+    }
+    parchment {
+        minecraftVersion = nyfs.versions.parchmentMinecraft.get()
+        mappingsVersion = nyfs.versions.parchmentVersion.get()
+    }
+}
+
+dependencies {
+    compileOnly(nyfs.bundles.mixin.common)
+    annotationProcessor nyfs.mixin.extras.common
+    compileOnly nyfs.config.api.common
+}
+
+configurations {
+    commonJava {
+        canBeResolved = false
+        canBeConsumed = true
+    }
+    commonResources {
+        canBeResolved = false
+        canBeConsumed = true
+    }
+}
+
+artifacts {
+    commonJava sourceSets.main.java.sourceDirectories.singleFile
+    commonResources sourceSets.main.resources.sourceDirectories.singleFile
+}
+
+configurations.all {
+    resolutionStrategy.cacheDynamicVersionsFor(1, "seconds")
+}
