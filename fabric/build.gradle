@@ -1,0 +1,41 @@
+plugins {
+    id 'multiloader-loader'
+    alias(nyfs.plugins.loom.loader)
+    alias(nyfs.plugins.mod.publish)
+    alias(nyfs.plugins.regutils.loader)
+    id("com.nyfaria.moddingtools.dependencies")
+}
+
+dependencies {
+    minecraft "com.mojang:minecraft:${minecraft_version}"
+    mappings loom.layered() {
+        officialMojangMappings()
+        parchment("org.parchmentmc.data:parchment-${nyfs.versions.parchmentMinecraft.get()}:${nyfs.versions.parchmentVersion.get()}@zip")
+    }
+    modImplementation nyfs.fabric.loader
+    modImplementation nyfs.fabric.api
+}
+
+loom {
+    def aw = project(":common").file("src/main/resources/${mod_id}.accesswidener")
+    if (aw.exists()) {
+        accessWidenerPath.set(aw)
+    }
+    mixin {
+        defaultRefmapName.set("${mod_id}.refmap.json")
+    }
+    runs {
+        client {
+            client()
+            setConfigName("Fabric Client")
+            ideConfigGenerated(true)
+            runDir("runs/client")
+        }
+        server {
+            server()
+            setConfigName("Fabric Server")
+            ideConfigGenerated(true)
+            runDir("runs/server")
+        }
+    }
+}
