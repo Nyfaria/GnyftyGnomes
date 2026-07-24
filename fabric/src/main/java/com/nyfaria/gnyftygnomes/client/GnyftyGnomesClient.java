@@ -15,8 +15,8 @@ public class GnyftyGnomesClient implements ClientModInitializer {
         EntityRendererRegistry.register(EntityInit.HEALING_GNOME.get(), GnomeRenderer::new);
         EntityRendererRegistry.register(EntityInit.WARRIOR_GNOME.get(), GnomeRenderer::new);
 
-        BlockRenderLayerMap.INSTANCE.putBlock(BlockInit.ARCHER_GNOME.get(), RenderType.translucent());
-        BlockRenderLayerMap.INSTANCE.putBlock(BlockInit.HEALING_GNOME.get(), RenderType.translucent());
-        BlockRenderLayerMap.INSTANCE.putBlock(BlockInit.WARRIOR_GNOME.get(), RenderType.translucent());
+        BlockRenderLayerMap.INSTANCE.putBlock(BlockInit.ARCHER_GNOME.get(), RenderType.cutout());
+        BlockRenderLayerMap.INSTANCE.putBlock(BlockInit.HEALING_GNOME.get(), RenderType.cutout());
+        BlockRenderLayerMap.INSTANCE.putBlock(BlockInit.WARRIOR_GNOME.get(), RenderType.cutout());
     }
 }
