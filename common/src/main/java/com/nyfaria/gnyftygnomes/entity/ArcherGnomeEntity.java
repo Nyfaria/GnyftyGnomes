@@ -1,6 +1,8 @@
 package com.nyfaria.gnyftygnomes.entity;
 
 import com.nyfaria.gnyftygnomes.config.GnomeConfig;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -59,5 +61,15 @@ public class ArcherGnomeEntity extends AbstractGnomeEntity implements RangedAtta
         arrow.shoot(dx, dy + horizontal * 0.2D, dz, 1.6F, 12.0F);
         playSound(SoundEvents.SKELETON_SHOOT, 1.0F, 1.0F / (getRandom().nextFloat() * 0.4F + 0.8F));
         level().addFreshEntity(arrow);
+    }
+
+    public void aiStep() {
+        if (this.level().isClientSide) {
+            for(int i = 0; i < 2; ++i) {
+                this.level().addParticle(ParticleTypes.ENCHANT, this.getRandomX((double)0.5F), this.getRandomY() - (double)0.25F, this.getRandomZ((double)0.5F), (this.random.nextDouble() - (double)0.5F) * (double)2.0F, -this.random.nextDouble(), (this.random.nextDouble() - (double)0.5F) * (double)2.0F);
+            }
+        }
+
+        super.aiStep();
     }
 }

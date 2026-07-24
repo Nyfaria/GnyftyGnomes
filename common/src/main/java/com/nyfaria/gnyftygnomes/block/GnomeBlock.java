@@ -8,6 +8,7 @@ import com.nyfaria.gnyftygnomes.init.BlockInit;
 import com.nyfaria.gnyftygnomes.init.EntityInit;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.EntityType;
@@ -105,6 +106,8 @@ public class GnomeBlock extends BaseEntityBlock {
                 gnome.setYHeadRot(yaw);
                 level.removeBlock(pos, false);
                 level.addFreshEntity(gnome);
+
+                // TODO some sort of conversion particle here?
             }
         }
         return InteractionResult.sidedSuccess(level.isClientSide());
