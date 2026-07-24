@@ -20,6 +20,8 @@ dependencies {
     compileOnly(nyfs.bundles.mixin.common.get())
     annotationProcessor nyfs.mixin.extras.common.get()
     compileOnly nyfs.config.api.common.get()
+    compileOnly nyfs.geckolib.common.get()
+    compileOnly nyfs.sbl.common.get()
 }
 
 configurations {

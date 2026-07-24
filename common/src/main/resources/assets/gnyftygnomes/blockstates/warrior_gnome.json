@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "gnyftygnomes:block/warrior_gnome"
+    },
+    "facing=east": {
+      "model": "gnyftygnomes:block/warrior_gnome",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "gnyftygnomes:block/warrior_gnome",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "gnyftygnomes:block/warrior_gnome",
+      "y": 270
+    }
+  }
+}

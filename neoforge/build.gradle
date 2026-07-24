@@ -35,6 +35,8 @@ neoForge {
 sourceSets.main.resources { srcDir project(":common").file('src/generated/resources').getAbsolutePath() }
 
 dependencies {
+    implementation nyfs.geckolib.neoforge
+    implementation nyfs.sbl.neoforge
 }
 
 publishMods {
@@ -52,8 +54,6 @@ publishMods {
             clientRequired = true
             serverRequired = true
             javaVersions.add(JavaVersion.VERSION_21)
-            announcementTitle = "Download NeoForge Version from CurseForge"
-            projectSlug = "nyfs-spiders"
         }
     }
     if (modrinth_publishing_enabled.toBoolean()) {
@@ -62,11 +62,5 @@ publishMods {
             projectId = modrinth_project_id
             minecraftVersions.add(minecraft_version)
         }
-    }
-    discord {
-        webhookUrl = spider_news
-        username = "Spider News"
-        avatarUrl = "https://media.forgecdn.net/avatars/618/872/638005062440412823.png"
-        content = changelog.map { "# Nyf's Spiders ${project.version} has been released for Minecraft ${minecraft_version}! \n (Pending Approval of Course)\n" + it}
     }
 }

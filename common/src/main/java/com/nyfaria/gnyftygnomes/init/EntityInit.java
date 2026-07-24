@@ -1,12 +1,18 @@
 package com.nyfaria.gnyftygnomes.init;
 
 import com.nyfaria.gnyftygnomes.Constants;
+import com.nyfaria.gnyftygnomes.entity.AbstractGnomeEntity;
+import com.nyfaria.gnyftygnomes.entity.ArcherGnomeEntity;
+import com.nyfaria.gnyftygnomes.entity.GnomeType;
+import com.nyfaria.gnyftygnomes.entity.HealingGnomeEntity;
+import com.nyfaria.gnyftygnomes.entity.WarriorGnomeEntity;
 import com.nyfaria.gnyftygnomes.registration.RegistrationProvider;
 import com.nyfaria.gnyftygnomes.registration.RegistryObject;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 
 import java.util.ArrayList;
@@ -16,6 +22,21 @@ import java.util.function.Supplier;
 public class EntityInit {
     public static final RegistrationProvider<EntityType<?>> ENTITIES = RegistrationProvider.get(Registries.ENTITY_TYPE, Constants.MODID);
     public static final List<AttributesRegister<?>> attributeSuppliers = new ArrayList<>();
+
+    public static final RegistryObject<EntityType<?>, EntityType<ArcherGnomeEntity>> ARCHER_GNOME = registerLivingEntity("archer_gnome",
+            () -> EntityType.Builder.of(ArcherGnomeEntity::new, MobCategory.CREATURE).sized(0.6F, 1.4F), ArcherGnomeEntity::createAttributes);
+    public static final RegistryObject<EntityType<?>, EntityType<HealingGnomeEntity>> HEALING_GNOME = registerLivingEntity("healing_gnome",
+            () -> EntityType.Builder.of(HealingGnomeEntity::new, MobCategory.CREATURE).sized(0.6F, 1.4F), HealingGnomeEntity::createAttributes);
+    public static final RegistryObject<EntityType<?>, EntityType<WarriorGnomeEntity>> WARRIOR_GNOME = registerLivingEntity("warrior_gnome",
+            () -> EntityType.Builder.of(WarriorGnomeEntity::new, MobCategory.CREATURE).sized(0.6F, 1.4F), WarriorGnomeEntity::createAttributes);
+
+    public static EntityType<? extends AbstractGnomeEntity> getEntityType(GnomeType type) {
+        return switch (type) {
+            case ARCHER -> ARCHER_GNOME.get();
+            case HEALING -> HEALING_GNOME.get();
+            case WARRIOR -> WARRIOR_GNOME.get();
+        };
+    }
 
 
 

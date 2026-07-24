@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "gnyftygnomes:block/healing_gnome"
+    },
+    "facing=east": {
+      "model": "gnyftygnomes:block/healing_gnome",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "gnyftygnomes:block/healing_gnome",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "gnyftygnomes:block/healing_gnome",
+      "y": 270
+    }
+  }
+}
