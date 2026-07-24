@@ -17,7 +17,7 @@ nyfsModdingTools {
     clearCache=false
 }
 
-rootProject.name = "NyfsMultiLoader-Template"
+rootProject.name = "GnyftyGnomes"
 include("common")
 include("fabric")
 include("neoforge")
