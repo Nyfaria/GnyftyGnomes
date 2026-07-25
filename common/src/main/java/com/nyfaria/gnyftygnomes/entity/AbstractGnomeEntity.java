@@ -25,7 +25,6 @@ import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.core.BlockPos;
@@ -151,7 +150,7 @@ public abstract class AbstractGnomeEntity extends TamableAnimal implements GeoEn
     public BrainActivityGroup<? extends AbstractGnomeEntity> getIdleTasks() {
         List<ExtendedBehaviour<? super AbstractGnomeEntity>> targeting = new ArrayList<>();
         if (isCombatant()) {
-            targeting.add(new SetAttackTarget<AbstractGnomeEntity>(false).attackPredicate(gnome -> true).targetFinder(AbstractGnomeEntity::findOwnerTarget));
+            targeting.add(new SetAttackTarget<AbstractGnomeEntity>(false).attackPredicate(gnome -> true).targetFinder(AbstractGnomeEntity::findHostileOwnerTarget));
             targeting.add(new TargetOrRetaliate<>().attackablePredicate(target -> target instanceof Enemy && target.isAlive()));
         }
         targeting.add(new SetPlayerLookTarget<>());
@@ -169,13 +168,13 @@ public abstract class AbstractGnomeEntity extends TamableAnimal implements GeoEn
     }
 
     @Nullable
-    private LivingEntity findOwnerTarget() {
+    private LivingEntity findHostileOwnerTarget() {
         LivingEntity owner = getOwner();
         if (owner == null) {
             return null;
         }
         LivingEntity target = owner.getLastHurtMob();
-        if (target != null && target.isAlive() && target != this && target != owner) {
+        if (target != null && target.isAlive() && target != this && target != owner && target instanceof Enemy) {
             return target;
         }
         return null;

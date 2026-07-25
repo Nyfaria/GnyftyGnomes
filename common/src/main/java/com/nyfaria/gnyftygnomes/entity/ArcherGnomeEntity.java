@@ -2,7 +2,6 @@ package com.nyfaria.gnyftygnomes.entity;
 
 import com.nyfaria.gnyftygnomes.config.GnomeConfig;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
