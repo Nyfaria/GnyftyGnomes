@@ -1,8 +1,9 @@
 package com.nyfaria.gnyftygnomes.worldgen;
 
 import com.mojang.serialization.MapCodec;
-import com.nyfaria.gnyftygnomes.Constants;
+import com.nyfaria.gnyftygnomes.*;
 import com.nyfaria.gnyftygnomes.config.GnomeConfig;
+import com.nyfaria.gnyftygnomes.entity.*;
 import com.nyfaria.gnyftygnomes.init.BlockInit;
 import com.nyfaria.gnyftygnomes.init.StructureProcessorInit;
 import net.minecraft.core.BlockPos;
@@ -42,15 +43,11 @@ public class GnomeStructureProcessor extends StructureProcessor {
             if (!DECIDED_PIECES.add(seed * 31L + offset.asLong())) {
                 return worldBlock;
             }
-            RandomSource random = RandomSource.create(seed ^ Mth.getSeed(offset));
-            if (random.nextDouble() >= GnomeConfig.dbl(GnomeConfig.VILLAGE_GNOME_CHANCE)) {
+
+            if (CommonClass.RANDOM.nextDouble() >= GnomeConfig.dbl(GnomeConfig.VILLAGE_GNOME_CHANCE)) {
                 return worldBlock;
             }
-            Block gnome = switch (random.nextInt(3)) {
-                case 0 -> BlockInit.ARCHER_GNOME.get();
-                case 1 -> BlockInit.HEALING_GNOME.get();
-                default -> BlockInit.WARRIOR_GNOME.get();
-            };
+            Block gnome = BlockInit.getBlock(GnomeType.values()[CommonClass.RANDOM.nextInt(GnomeType.values().length)]);
             return new StructureTemplate.StructureBlockInfo(worldBlock.pos(), gnome.defaultBlockState(), worldBlock.nbt());
         } catch (Throwable t) {
             if (!errorLogged) {
