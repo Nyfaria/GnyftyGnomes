@@ -4,6 +4,7 @@
   "ambientocclusion": false,
   "parent": "minecraft:block/block",
   "texture_size": [64, 64],
+  "render_type": "translucent",
   "textures": {
     "1": "gnyftygnomes:block/healing_gnome",
     "particle": "gnyftygnomes:block/healing_gnome"

@@ -4,9 +4,10 @@
   "package": "com.nyfaria.gnyftygnomes.mixin",
   "refmap": "${mod_id}.refmap.json",
   "compatibilityLevel": "JAVA_21",
-  "mixins": [],
+  "mixins": [
+    "MixinSinglePoolElement"
+  ],
   "client": [
-    "MixinMinecraft"
   ],
   "server": [],
   "injectors": {

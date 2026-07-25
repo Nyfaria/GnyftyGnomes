@@ -38,6 +38,9 @@ public final class GnomeConfig {
     public static final ModConfigSpec.IntValue ARCHER_BLOCK_INTERVAL;
     public static final ModConfigSpec.DoubleValue ARCHER_BLOCK_RADIUS;
 
+    public static final ModConfigSpec.BooleanValue VILLAGE_GNOME_ENABLED;
+    public static final ModConfigSpec.DoubleValue VILLAGE_GNOME_CHANCE;
+
     static {
         ModConfigSpec.Builder builder = new ModConfigSpec.Builder();
 
@@ -100,10 +103,19 @@ public final class GnomeConfig {
 
         builder.pop();
 
+        builder.push("worldgen");
+        VILLAGE_GNOME_ENABLED = builder.comment("Whether gnome blocks can generate in village farms").define("village_farm_gnomes", true);
+        VILLAGE_GNOME_CHANCE = builder.comment("Chance for each village farm to receive a single gnome block").defineInRange("village_farm_chance", 1.0D, 0.0D, 1.0D);
+        builder.pop();
+
         SPEC = builder.build();
     }
 
     private GnomeConfig() {
+    }
+
+    public static boolean bool(ModConfigSpec.BooleanValue value) {
+        return SPEC.isLoaded() ? value.get() : value.getDefault();
     }
 
     public static double dbl(ModConfigSpec.DoubleValue value) {
