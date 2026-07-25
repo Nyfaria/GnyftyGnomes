@@ -71,14 +71,4 @@ public class ArcherGnomeEntity extends AbstractGnomeEntity implements RangedAtta
         playSound(SoundEvents.SKELETON_SHOOT, 1.0F, 1.0F / (getRandom().nextFloat() * 0.4F + 0.8F));
         level().addFreshEntity(arrow);
     }
-
-    public void aiStep() {
-        if (this.level().isClientSide) {
-            for(int i = 0; i < 2; ++i) {
-                this.level().addParticle(ParticleTypes.ENCHANT, this.getRandomX((double)0.5F), this.getRandomY() - (double)0.25F, this.getRandomZ((double)0.5F), (this.random.nextDouble() - (double)0.5F) * (double)2.0F, -this.random.nextDouble(), (this.random.nextDouble() - (double)0.5F) * (double)2.0F);
-            }
-        }
-
-        super.aiStep();
-    }
 }

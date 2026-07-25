@@ -3,6 +3,7 @@ package com.nyfaria.gnyftygnomes.entity;
 import com.nyfaria.gnyftygnomes.init.BlockInit;
 import com.nyfaria.gnyftygnomes.block.GnomeBlockEntity;
 import com.nyfaria.gnyftygnomes.config.GnomeConfig;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
@@ -114,9 +115,20 @@ public abstract class AbstractGnomeEntity extends TamableAnimal implements GeoEn
     protected void customServerAiStep() {
         tickBrain(this);
         setAggressive(getBrain().hasMemoryValue(MemoryModuleType.ATTACK_TARGET));
+    }
+
+    public void aiStep() {
+        if (this.level().isClientSide) {
+            for(int i = 0; i < 1; ++i) {
+                this.level().addParticle(ParticleTypes.ENCHANT, this.getRandomX((double)0.5F), this.getRandomY() - (double)0.25F, this.getRandomZ((double)0.5F), (this.random.nextDouble() - (double)0.5F) * (double)2.0F, -this.random.nextDouble(), (this.random.nextDouble() - (double)0.5F) * (double)2.0F);
+            }
+        }
+
         if (tickCount % GnomeConfig.integer(GnomeConfig.PET_HEAL_INTERVAL) == 0) {
             healNearbyPets();
         }
+
+        super.aiStep();
     }
 
     private void healNearbyPets() {
@@ -128,6 +140,13 @@ public abstract class AbstractGnomeEntity extends TamableAnimal implements GeoEn
         for (TamableAnimal pet : level().getEntitiesOfClass(TamableAnimal.class, area,
                 other -> other.isTame() && other.isAlive() && other.getHealth() < other.getMaxHealth())) {
             pet.heal(amount);
+
+            // Healing Particles
+            if (this.level().isClientSide) {
+                for(int i = 0; i < 2; ++i) {
+                    this.level().addParticle(ParticleTypes.HEART, pet.getRandomX((double)0.5F), pet.getRandomY() - (double)0.25F, pet.getRandomZ((double)0.5F), (this.random.nextDouble() - (double)0.5F) * (double)2.0F, -this.random.nextDouble(), (this.random.nextDouble() - (double)0.5F) * (double)2.0F);
+                }
+            }
         }
     }
 
