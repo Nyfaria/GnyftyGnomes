@@ -10,6 +10,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
@@ -106,8 +107,9 @@ public class GnomeBlock extends BaseEntityBlock {
                 gnome.setYHeadRot(yaw);
                 level.removeBlock(pos, false);
                 level.addFreshEntity(gnome);
-
-                // TODO some sort of conversion particle here?
+                if (level instanceof ServerLevel serverLevel) {
+                    serverLevel.sendParticles(ParticleTypes.EXPLOSION_EMITTER, pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D, 1, 0.0D, 0.0D, 0.0D, 0.0D);
+                }
             }
         }
         return InteractionResult.sidedSuccess(level.isClientSide());

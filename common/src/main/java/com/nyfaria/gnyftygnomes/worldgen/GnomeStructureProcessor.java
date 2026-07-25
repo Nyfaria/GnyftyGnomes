@@ -51,7 +51,6 @@ public class GnomeStructureProcessor extends StructureProcessor {
                 case 1 -> BlockInit.HEALING_GNOME.get();
                 default -> BlockInit.WARRIOR_GNOME.get();
             };
-            Constants.LOG.info("Placing {} in village farm at {}", gnome, worldBlock.pos());
             return new StructureTemplate.StructureBlockInfo(worldBlock.pos(), gnome.defaultBlockState(), worldBlock.nbt());
         } catch (Throwable t) {
             if (!errorLogged) {

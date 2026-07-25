@@ -223,6 +223,9 @@ public abstract class AbstractGnomeEntity extends TamableAnimal implements GeoEn
             saveWithoutId(tag);
             gnome.setStoredData(tag);
         }
+        if (level() instanceof ServerLevel serverLevel) {
+            serverLevel.sendParticles(ParticleTypes.EXPLOSION_EMITTER, getX(), getY() + getBbHeight() * 0.5D, getZ(), 1, 0.0D, 0.0D, 0.0D, 0.0D);
+        }
         discard();
         return true;
     }
