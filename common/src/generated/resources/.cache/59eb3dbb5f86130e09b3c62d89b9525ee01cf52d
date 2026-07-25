@@ -1,0 +1,4 @@
+// 1.21.1	2026-07-25T16:08:37.4145182	Loot Tables
+346ec1fc744205e2e434e32dc238c34c5f0d5f56 data/gnyftygnomes/loot_table/blocks/archer_gnome.json
+d313b7a6a791e9c9d8aed016a5db4315b810b74f data/gnyftygnomes/loot_table/blocks/healing_gnome.json
+30bd6590cab01c87c7ac4198de67e7a093c73eb1 data/gnyftygnomes/loot_table/blocks/warrior_gnome.json
