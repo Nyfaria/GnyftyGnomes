@@ -21,11 +21,11 @@ public class BlockInit {
     public static final RegistrationProvider<Block> BLOCKS = RegistrationProvider.get(Registries.BLOCK, Constants.MODID);
     public static final RegistrationProvider<BlockEntityType<?>> BLOCK_ENTITIES = RegistrationProvider.get(Registries.BLOCK_ENTITY_TYPE, Constants.MODID);
 
-    public static final RegistryObject<Block, GnomeBlock> ARCHER_GNOME = registerBlock("archer_gnome", () -> new GnomeBlock(GnomeType.ARCHER, gnomeProperties()));
-    public static final RegistryObject<Block, GnomeBlock> HEALING_GNOME = registerBlock("healing_gnome", () -> new GnomeBlock(GnomeType.HEALING, gnomeProperties()));
-    public static final RegistryObject<Block, GnomeBlock> WARRIOR_GNOME = registerBlock("warrior_gnome", () -> new GnomeBlock(GnomeType.WARRIOR, gnomeProperties()));
+    public static final RegistryObject<GnomeBlock> ARCHER_GNOME = registerBlock("archer_gnome", () -> new GnomeBlock(GnomeType.ARCHER, gnomeProperties()));
+    public static final RegistryObject<GnomeBlock> HEALING_GNOME = registerBlock("healing_gnome", () -> new GnomeBlock(GnomeType.HEALING, gnomeProperties()));
+    public static final RegistryObject<GnomeBlock> WARRIOR_GNOME = registerBlock("warrior_gnome", () -> new GnomeBlock(GnomeType.WARRIOR, gnomeProperties()));
 
-    public static final RegistryObject<BlockEntityType<?>, BlockEntityType<GnomeBlockEntity>> GNOME_BLOCK_ENTITY = BLOCK_ENTITIES.register("gnome",
+    public static final RegistryObject<BlockEntityType<?>> GNOME_BLOCK_ENTITY = BLOCK_ENTITIES.register("gnome",
             () -> BlockEntityType.Builder.of(GnomeBlockEntity::new, ARCHER_GNOME.get(), HEALING_GNOME.get(), WARRIOR_GNOME.get()).build(null));
 
     private static BlockBehaviour.Properties gnomeProperties() {
@@ -44,17 +44,17 @@ public class BlockInit {
         };
     }
 
-    public static <T extends Block> RegistryObject<Block, T> registerBlock(String name, Supplier<T> block) {
+    public static <T extends Block> RegistryObject<T> registerBlock(String name, Supplier<T> block) {
         return registerBlock(name, block, b -> () -> new BlockItem(b.get(), ItemInit.getItemProperties()));
     }
 
-    protected static <T extends Block> RegistryObject<Block, T> registerBlock(String name, Supplier<T> block, Function<RegistryObject<Block, T>, Supplier<? extends BlockItem>> item) {
-        RegistryObject<Block, T> reg = BLOCKS.register(name, block);
+    protected static <T extends Block> RegistryObject<T> registerBlock(String name, Supplier<T> block, Function<RegistryObject<T>, Supplier<? extends BlockItem>> item) {
+        RegistryObject<T> reg = BLOCKS.register(name, block);
         ItemInit.ITEMS.register(name, () -> item.apply(reg).get());
         return reg;
     }
 
-    public static <T extends Block> RegistryObject<Block, T> registerBlockWithoutItem(String name, Supplier<T> block) {
+    public static <T extends Block> RegistryObject<T> registerBlockWithoutItem(String name, Supplier<T> block) {
         return BLOCKS.register(name, block);
     }
 

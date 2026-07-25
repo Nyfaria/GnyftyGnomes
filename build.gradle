@@ -5,6 +5,10 @@ plugins {
     alias(nyfs.plugins.regutils)
 }
 
+configurations.all {
+    resolutionStrategy.cacheDynamicVersionsFor(1, "seconds")
+}
+
 registrationUtils {
     group "com.nyfaria.${mod_id}.registration"
     projects {
@@ -12,7 +16,7 @@ registrationUtils {
             type 'fabric'
         }
         neoforge {
-            type 'neoforge'
+            type 'forge'
         }
         common {
             type 'common'

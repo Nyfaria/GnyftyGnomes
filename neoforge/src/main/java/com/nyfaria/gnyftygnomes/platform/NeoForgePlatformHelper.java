@@ -1,8 +1,9 @@
 package com.nyfaria.gnyftygnomes.platform;
 
 import com.nyfaria.gnyftygnomes.platform.services.IPlatformHelper;
-import net.neoforged.fml.ModList;
-import net.neoforged.fml.loading.FMLLoader;
+import net.minecraftforge.fml.*;
+import net.minecraftforge.fml.loading.*;
+
 
 public class NeoForgePlatformHelper implements IPlatformHelper {
 

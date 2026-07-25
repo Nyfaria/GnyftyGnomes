@@ -1,10 +1,15 @@
 plugins {
     id 'multiloader-loader'
-    alias(nyfs.plugins.loom.loader)
+    alias(nyfs.plugins.loom)
     alias(nyfs.plugins.mod.publish)
-    alias(nyfs.plugins.regutils.loader)
-    id("com.nyfaria.moddingtools.dependencies")
+    alias(nyfs.plugins.regutils)
 }
+
+configurations.all {
+    resolutionStrategy.cacheDynamicVersionsFor(1, "seconds")
+}
+
+sourceSets.main.resources { srcDir project(":common").file('src/generated/resources').getAbsolutePath() }
 
 dependencies {
     minecraft "com.mojang:minecraft:${minecraft_version}"
@@ -14,9 +19,10 @@ dependencies {
     }
     modImplementation nyfs.fabric.loader
     modImplementation nyfs.fabric.api
+    modApi(nyfs.config.api.fabric)
+    include(nyfs.config.api.fabric)
     modImplementation nyfs.geckolib.fabric
     modImplementation nyfs.sbl.fabric
-    modImplementation nyfs.config.api.fabric
 }
 
 loom {
@@ -42,8 +48,9 @@ loom {
         }
     }
 }
+
 publishMods {
-    file = jar.archiveFile
+    file = remapJar.archiveFile
     changelog = project(":common").file("changelog.md").text
     type = STABLE
     modLoaders.add("fabric")
@@ -56,7 +63,10 @@ publishMods {
             minecraftVersions.add(minecraft_version)
             clientRequired = true
             serverRequired = true
-            javaVersions.add(JavaVersion.VERSION_21)
+            javaVersions.add(JavaVersion.VERSION_17)
+            requires {
+                slug = "fabric-api"
+            }
         }
     }
     if (modrinth_publishing_enabled.toBoolean()) {
@@ -64,6 +74,9 @@ publishMods {
             accessToken = modrinth_token
             projectId = modrinth_project_id
             minecraftVersions.add(minecraft_version)
+            requires {
+                slug = "fabric-api"
+            }
         }
     }
 }

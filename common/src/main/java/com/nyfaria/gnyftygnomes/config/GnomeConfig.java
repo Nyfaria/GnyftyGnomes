@@ -1,48 +1,48 @@
 package com.nyfaria.gnyftygnomes.config;
 
-import net.neoforged.neoforge.common.ModConfigSpec;
+import net.minecraftforge.common.ForgeConfigSpec;
 
 public final class GnomeConfig {
-    public static final ModConfigSpec SPEC;
+    public static final ForgeConfigSpec SPEC;
 
-    public static final ModConfigSpec.DoubleValue WARRIOR_HEALTH;
-    public static final ModConfigSpec.DoubleValue WARRIOR_ATTACK_DAMAGE;
-    public static final ModConfigSpec.DoubleValue WARRIOR_SPEED;
-    public static final ModConfigSpec.IntValue WARRIOR_ATTACK_INTERVAL;
+    public static final ForgeConfigSpec.DoubleValue WARRIOR_HEALTH;
+    public static final ForgeConfigSpec.DoubleValue WARRIOR_ATTACK_DAMAGE;
+    public static final ForgeConfigSpec.DoubleValue WARRIOR_SPEED;
+    public static final ForgeConfigSpec.IntValue WARRIOR_ATTACK_INTERVAL;
 
-    public static final ModConfigSpec.DoubleValue ARCHER_HEALTH;
-    public static final ModConfigSpec.DoubleValue ARCHER_SPEED;
-    public static final ModConfigSpec.IntValue ARCHER_ATTACK_INTERVAL;
-    public static final ModConfigSpec.DoubleValue ARCHER_ATTACK_RADIUS;
-    public static final ModConfigSpec.DoubleValue ARCHER_STRAFE_DISTANCE;
+    public static final ForgeConfigSpec.DoubleValue ARCHER_HEALTH;
+    public static final ForgeConfigSpec.DoubleValue ARCHER_SPEED;
+    public static final ForgeConfigSpec.IntValue ARCHER_ATTACK_INTERVAL;
+    public static final ForgeConfigSpec.DoubleValue ARCHER_ATTACK_RADIUS;
+    public static final ForgeConfigSpec.DoubleValue ARCHER_STRAFE_DISTANCE;
 
-    public static final ModConfigSpec.DoubleValue HEALER_HEALTH;
-    public static final ModConfigSpec.DoubleValue HEALER_SPEED;
-    public static final ModConfigSpec.IntValue HEALER_THROW_INTERVAL;
-    public static final ModConfigSpec.DoubleValue HEALER_HEAL_RADIUS;
+    public static final ForgeConfigSpec.DoubleValue HEALER_HEALTH;
+    public static final ForgeConfigSpec.DoubleValue HEALER_SPEED;
+    public static final ForgeConfigSpec.IntValue HEALER_THROW_INTERVAL;
+    public static final ForgeConfigSpec.DoubleValue HEALER_HEAL_RADIUS;
 
-    public static final ModConfigSpec.DoubleValue FOLLOW_RANGE;
-    public static final ModConfigSpec.DoubleValue FOLLOW_STOP_DISTANCE;
-    public static final ModConfigSpec.DoubleValue FOLLOW_TELEPORT_DISTANCE;
+    public static final ForgeConfigSpec.DoubleValue FOLLOW_RANGE;
+    public static final ForgeConfigSpec.DoubleValue FOLLOW_STOP_DISTANCE;
+    public static final ForgeConfigSpec.DoubleValue FOLLOW_TELEPORT_DISTANCE;
 
-    public static final ModConfigSpec.IntValue PET_HEAL_INTERVAL;
-    public static final ModConfigSpec.DoubleValue PET_HEAL_RADIUS;
-    public static final ModConfigSpec.DoubleValue PET_HEAL_AMOUNT;
+    public static final ForgeConfigSpec.IntValue PET_HEAL_INTERVAL;
+    public static final ForgeConfigSpec.DoubleValue PET_HEAL_RADIUS;
+    public static final ForgeConfigSpec.DoubleValue PET_HEAL_AMOUNT;
 
-    public static final ModConfigSpec.IntValue HEALER_BLOCK_INTERVAL;
-    public static final ModConfigSpec.IntValue HEALER_BLOCK_RADIUS;
-    public static final ModConfigSpec.IntValue WARRIOR_BLOCK_INTERVAL;
-    public static final ModConfigSpec.DoubleValue WARRIOR_BLOCK_RADIUS;
-    public static final ModConfigSpec.IntValue WARRIOR_BLOCK_STRENGTH_AMPLIFIER;
-    public static final ModConfigSpec.IntValue WARRIOR_BLOCK_STRENGTH_DURATION;
-    public static final ModConfigSpec.IntValue ARCHER_BLOCK_INTERVAL;
-    public static final ModConfigSpec.DoubleValue ARCHER_BLOCK_RADIUS;
+    public static final ForgeConfigSpec.IntValue HEALER_BLOCK_INTERVAL;
+    public static final ForgeConfigSpec.IntValue HEALER_BLOCK_RADIUS;
+    public static final ForgeConfigSpec.IntValue WARRIOR_BLOCK_INTERVAL;
+    public static final ForgeConfigSpec.DoubleValue WARRIOR_BLOCK_RADIUS;
+    public static final ForgeConfigSpec.IntValue WARRIOR_BLOCK_STRENGTH_AMPLIFIER;
+    public static final ForgeConfigSpec.IntValue WARRIOR_BLOCK_STRENGTH_DURATION;
+    public static final ForgeConfigSpec.IntValue ARCHER_BLOCK_INTERVAL;
+    public static final ForgeConfigSpec.DoubleValue ARCHER_BLOCK_RADIUS;
 
-    public static final ModConfigSpec.BooleanValue VILLAGE_GNOME_ENABLED;
-    public static final ModConfigSpec.DoubleValue VILLAGE_GNOME_CHANCE;
+    public static final ForgeConfigSpec.BooleanValue VILLAGE_GNOME_ENABLED;
+    public static final ForgeConfigSpec.DoubleValue VILLAGE_GNOME_CHANCE;
 
     static {
-        ModConfigSpec.Builder builder = new ModConfigSpec.Builder();
+        ForgeConfigSpec.Builder builder = new ForgeConfigSpec.Builder();
 
         builder.push("entities");
 
@@ -114,19 +114,19 @@ public final class GnomeConfig {
     private GnomeConfig() {
     }
 
-    public static boolean bool(ModConfigSpec.BooleanValue value) {
+    public static boolean bool(ForgeConfigSpec.BooleanValue value) {
         return SPEC.isLoaded() ? value.get() : value.getDefault();
     }
 
-    public static double dbl(ModConfigSpec.DoubleValue value) {
+    public static double dbl(ForgeConfigSpec.DoubleValue value) {
         return SPEC.isLoaded() ? value.get() : value.getDefault();
     }
 
-    public static float flt(ModConfigSpec.DoubleValue value) {
+    public static float flt(ForgeConfigSpec.DoubleValue value) {
         return (float) dbl(value);
     }
 
-    public static int integer(ModConfigSpec.IntValue value) {
+    public static int integer(ForgeConfigSpec.IntValue value) {
         return SPEC.isLoaded() ? value.get() : value.getDefault();
     }
 }

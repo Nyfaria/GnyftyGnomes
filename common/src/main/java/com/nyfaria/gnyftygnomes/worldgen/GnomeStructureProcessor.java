@@ -1,6 +1,6 @@
 package com.nyfaria.gnyftygnomes.worldgen;
 
-import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.Codec;
 import com.nyfaria.gnyftygnomes.*;
 import com.nyfaria.gnyftygnomes.config.GnomeConfig;
 import com.nyfaria.gnyftygnomes.entity.*;
@@ -23,7 +23,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class GnomeStructureProcessor extends StructureProcessor {
     public static final GnomeStructureProcessor INSTANCE = new GnomeStructureProcessor();
-    public static final MapCodec<GnomeStructureProcessor> CODEC = MapCodec.unit(INSTANCE);
+    public static final Codec<GnomeStructureProcessor> CODEC = Codec.unit(INSTANCE);
 
     private static final Set<Long> DECIDED_PIECES = ConcurrentHashMap.newKeySet();
     private static boolean errorLogged = false;

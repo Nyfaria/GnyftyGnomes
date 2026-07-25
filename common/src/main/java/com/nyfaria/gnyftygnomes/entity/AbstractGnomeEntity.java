@@ -49,10 +49,10 @@ import net.tslat.smartbrainlib.api.core.sensor.vanilla.HurtBySensor;
 import net.tslat.smartbrainlib.api.core.sensor.vanilla.NearbyLivingEntitySensor;
 import net.tslat.smartbrainlib.api.core.sensor.vanilla.NearbyPlayersSensor;
 import software.bernie.geckolib.animatable.GeoEntity;
-import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.animation.AnimatableManager;
-import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.RawAnimation;
+import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
+import software.bernie.geckolib.core.animation.AnimatableManager;
+import software.bernie.geckolib.core.animation.AnimationController;
+import software.bernie.geckolib.core.animation.RawAnimation;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 import java.util.ArrayList;

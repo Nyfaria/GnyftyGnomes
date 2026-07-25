@@ -7,7 +7,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.level.levelgen.structure.pools.SinglePoolElement;
-import net.minecraft.world.level.levelgen.structure.templatesystem.LiquidSettings;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 import org.spongepowered.asm.mixin.Final;
@@ -28,7 +27,7 @@ public class MixinSinglePoolElement {
     private static boolean gnyftygnomes$errorLogged = false;
 
     @Inject(method = "getSettings", at = @At("RETURN"))
-    private void gnyftygnomes$addGnomeProcessor(Rotation rotation, BoundingBox box, LiquidSettings liquidSettings, boolean offset, CallbackInfoReturnable<StructurePlaceSettings> cir) {
+    private void gnyftygnomes$addGnomeProcessor(Rotation rotation, BoundingBox box, boolean offset, CallbackInfoReturnable<StructurePlaceSettings> cir) {
         try {
             StructurePlaceSettings settings = cir.getReturnValue();
             if (settings == null || this.template == null) {

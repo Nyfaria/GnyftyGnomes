@@ -1,14 +1,17 @@
 plugins {
     id 'multiloader-common'
-    alias(nyfs.plugins.mdg.loader)
-    alias(nyfs.plugins.regutils.loader)
+    alias(nyfs.plugins.mdg)
+    alias(nyfs.plugins.regutils.vanilla)
+}
+configurations.all {
+    resolutionStrategy.cacheDynamicVersionsFor(1, "seconds")
 }
 
-neoForge {
-    neoFormVersion = nyfs.versions.neoFormVersion.get()
+legacyForge {
+    mcpVersion = minecraft_version
     def at = file('src/main/resources/META-INF/accesstransformer.cfg')
     if (at.exists()) {
-        accessTransformers.from(at.absolutePath)
+        accessTransformers = [at]
     }
     parchment {
         minecraftVersion = nyfs.versions.parchmentMinecraft.get()
@@ -17,11 +20,11 @@ neoForge {
 }
 
 dependencies {
-    compileOnly(nyfs.bundles.mixin.common.get())
-    annotationProcessor nyfs.mixin.extras.common.get()
-    compileOnly nyfs.config.api.common.get()
-    compileOnly nyfs.geckolib.common.get()
-    compileOnly nyfs.sbl.common.get()
+    compileOnly(nyfs.bundles.mixin.common)
+    annotationProcessor nyfs.mixin.extras.common
+    compileOnly nyfs.config.api.common
+    compileOnly nyfs.geckolib.forge
+    compileOnly nyfs.sbl.common
 }
 
 configurations {
@@ -40,3 +43,6 @@ artifacts {
     commonResources sourceSets.main.resources.sourceDirectories.singleFile
 }
 
+configurations.all {
+    resolutionStrategy.cacheDynamicVersionsFor(1, "seconds")
+}

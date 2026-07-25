@@ -52,7 +52,7 @@ public class ArcherGnomeEntity extends AbstractGnomeEntity implements RangedAtta
 
     @Override
     public void performRangedAttack(LivingEntity target, float velocity) {
-        Arrow arrow = new Arrow(level(), this, new ItemStack(Items.ARROW), null);
+        Arrow arrow = new Arrow(level(), this);
         double toX = target.getX() - getX();
         double toZ = target.getZ() - getZ();
         double flatDist = Math.sqrt(toX * toX + toZ * toZ);

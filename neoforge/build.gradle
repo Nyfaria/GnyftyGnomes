@@ -1,30 +1,48 @@
 plugins {
     id 'multiloader-loader'
-    alias(nyfs.plugins.mdg.loader)
+    alias(nyfs.plugins.mdg)
     alias(nyfs.plugins.mod.publish)
-    alias(nyfs.plugins.regutils.loader)
+    alias(nyfs.plugins.regutils)
+    alias(nyfs.plugins.hundred.media)
 }
 
-neoForge {
-    version = nyfs.versions.neoforgeVersion.get()
+configurations.all {
+    resolutionStrategy.cacheDynamicVersionsFor(1, "seconds")
+}
+
+mixin {
+    add(sourceSets.main, "${mod_id}.refmap.json")
+
+    config("${mod_id}.mixins.json")
+}
+
+legacyForge {
+    version = nyfs.versions.minecraft.get() + "-" + nyfs.versions.forgeVersion.get()
     def at = project(":common").file('src/main/resources/META-INF/accesstransformer.cfg')
     if (at.exists()) {
         accessTransformers = [at]
     }
+    parchment {
+        minecraftVersion = nyfs.versions.parchmentMinecraft.get()
+        mappingsVersion = nyfs.versions.parchmentVersion.get()
+    }
+
     mods {
         "${mod_id}" {
-            sourceSet(sourceSets.main)
+            sourceSet sourceSets.main
         }
     }
+
     runs {
+        configureEach {
+            jvmArguments =['-XX:+AllowEnhancedClassRedefinition']
+
+        }
         client {
             client()
-            systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
         }
         server {
             server()
-            systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
-            programArgument '--nogui'
         }
         data {
             data()
@@ -34,17 +52,31 @@ neoForge {
 }
 sourceSets.main.resources { srcDir project(":common").file('src/generated/resources').getAbsolutePath() }
 
-dependencies {
-    implementation nyfs.geckolib.neoforge
-    implementation nyfs.sbl.neoforge
-}
 
+dependencies {
+    compileOnly(project(":common"))
+    annotationProcessor(nyfs.mixin) {
+        artifact {
+            classifier = 'processor'
+        }
+    }
+    modImplementation nyfs.cap.syncer
+    jarJar(nyfs.cap.syncer)
+    modImplementation nyfs.geckolib.forge
+    modImplementation nyfs.sbl.forge
+}
+jar {
+    finalizedBy('reobfJar')
+    manifest.attributes([
+            "MixinConfigs": "${mod_id}.mixins.json"
+    ])
+}
 publishMods {
     file = jar.archiveFile
     changelog = project(":common").file("changelog.md").text
     type = STABLE
-    modLoaders.add("neoforge")
-    displayName = "${mod_name}-${minecraft_version}-[NeoForge]-${project.version}"
+    modLoaders.add("forge")
+    displayName = "${mod_name}-${minecraft_version}-[Forge]-${project.version}"
     dryRun = dry_run.toBoolean()
     if (curseforge_publishing_enabled.toBoolean()) {
         curseforge {
@@ -53,7 +85,7 @@ publishMods {
             minecraftVersions.add(minecraft_version)
             clientRequired = true
             serverRequired = true
-            javaVersions.add(JavaVersion.VERSION_21)
+            javaVersions.add(JavaVersion.VERSION_17)
         }
     }
     if (modrinth_publishing_enabled.toBoolean()) {

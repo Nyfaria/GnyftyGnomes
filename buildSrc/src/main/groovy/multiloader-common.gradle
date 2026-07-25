@@ -69,7 +69,7 @@ processResources {
             "version"                      : version,
             "group"                        : project.group,
             "minecraft_version"            : minecraft_version,
-            "minecraft_version_range"      : nyfs.versions.minecraftVersionRange.get(),
+            "minecraft_version_range"      : minecraft_version_range,
             "fabric_version"               : nyfs.versions.fabric.api.get(),
             "fabric_loader_version"        : nyfs.versions.fabric.loader.get(),
             "mod_name"                     : mod_name,
@@ -77,13 +77,13 @@ processResources {
             "mod_id"                       : mod_id,
             "license"                      : license,
             "description"                  : project.description,
-            "neoforge_version"             : nyfs.versions.neoforgeVersion.get(),
-            "neoforge_loader_version_range": nyfs.versions.neoforgeLoaderRange.get(),
+            "forge_version"                : nyfs.versions.forgeVersion.get(),
+            "forge_loader_version_range"   : nyfs.versions.forgeLoaderRange.get(),
             "credits"                      : credits,
             "java_version"                 : java_version
     ]
 
-    filesMatching(['pack.mcmeta', 'fabric.mod.json', 'META-INF/mods.toml', 'META-INF/neoforge.mods.toml', '*.mixins.json']) {
+    filesMatching(['pack.mcmeta', 'fabric.mod.json', 'META-INF/mods.toml', '*.mixins.json']) {
         expand expandProps
     }
     inputs.properties(expandProps)

@@ -1,37 +1,36 @@
 package com.nyfaria.gnyftygnomes.client.model;
 
-import com.nyfaria.gnyftygnomes.Constants;
-import com.nyfaria.gnyftygnomes.entity.AbstractGnomeEntity;
-import com.nyfaria.gnyftygnomes.entity.GnomeType;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.Mth;
-import software.bernie.geckolib.animation.AnimationState;
-import software.bernie.geckolib.cache.object.GeoBone;
-import software.bernie.geckolib.constant.DataTickets;
-import software.bernie.geckolib.model.GeoModel;
-import software.bernie.geckolib.model.data.EntityModelData;
+import com.nyfaria.gnyftygnomes.*;
+import com.nyfaria.gnyftygnomes.entity.*;
+import net.minecraft.resources.*;
+import net.minecraft.util.*;
+import software.bernie.geckolib.constant.*;
+import software.bernie.geckolib.core.animatable.model.*;
+import software.bernie.geckolib.core.animation.*;
+import software.bernie.geckolib.model.*;
+import software.bernie.geckolib.model.data.*;
 
 public class GnomeGeoModel extends GeoModel<AbstractGnomeEntity> {
     @Override
     public ResourceLocation getModelResource(AbstractGnomeEntity animatable) {
-        return ResourceLocation.fromNamespaceAndPath(Constants.MODID, "geo/entity/" + animatable.getGnomeType().getRegistryName() + ".geo.json");
+        return new ResourceLocation(Constants.MODID, "geo/entity/" + animatable.getGnomeType().getRegistryName() + ".geo.json");
     }
 
     @Override
     public ResourceLocation getTextureResource(AbstractGnomeEntity animatable) {
-        return ResourceLocation.fromNamespaceAndPath(Constants.MODID, "textures/entity/" + animatable.getGnomeType().getRegistryName() + ".png");
+        return new ResourceLocation(Constants.MODID, "textures/entity/" + animatable.getGnomeType().getRegistryName() + ".png");
     }
 
     @Override
     public ResourceLocation getAnimationResource(AbstractGnomeEntity animatable) {
-        return ResourceLocation.fromNamespaceAndPath(Constants.MODID, "animations/entity/" + animatable.getGnomeType().getRegistryName() + ".animation.json");
+        return new ResourceLocation(Constants.MODID, "animations/entity/" + animatable.getGnomeType().getRegistryName() + ".animation.json");
     }
 
     @Override
     public void setCustomAnimations(AbstractGnomeEntity animatable, long instanceId, AnimationState<AbstractGnomeEntity> state) {
         super.setCustomAnimations(animatable, instanceId, state);
 
-        GeoBone head = getAnimationProcessor().getBone("head");
+        CoreGeoBone head = getAnimationProcessor().getBone("head");
         if (head != null) {
             EntityModelData entityData = state.getData(DataTickets.ENTITY_MODEL_DATA);
             if (entityData != null) {
@@ -61,7 +60,7 @@ public class GnomeGeoModel extends GeoModel<AbstractGnomeEntity> {
     }
 
     private void applyRotation(String boneName, float rotation) {
-        GeoBone bone = getAnimationProcessor().getBone(boneName);
+        CoreGeoBone bone = getAnimationProcessor().getBone(boneName);
         if (bone != null) {
             bone.setRotX(rotation);
         }

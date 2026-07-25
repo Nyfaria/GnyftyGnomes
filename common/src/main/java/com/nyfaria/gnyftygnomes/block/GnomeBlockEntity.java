@@ -3,7 +3,6 @@ package com.nyfaria.gnyftygnomes.block;
 import com.nyfaria.gnyftygnomes.config.GnomeConfig;
 import com.nyfaria.gnyftygnomes.init.BlockInit;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
@@ -15,8 +14,6 @@ import net.minecraft.world.entity.EntitySelector;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Arrow;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BonemealableBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -62,7 +59,7 @@ public class GnomeBlockEntity extends BlockEntity {
         int radius = GnomeConfig.integer(GnomeConfig.HEALER_BLOCK_RADIUS);
         for (BlockPos target : BlockPos.betweenClosed(pos.offset(-radius, -2, -radius), pos.offset(radius, 2, radius))) {
             BlockState state = level.getBlockState(target);
-            if (state.getBlock() instanceof BonemealableBlock bonemealable && bonemealable.isValidBonemealTarget(level, target, state)) {
+            if (state.getBlock() instanceof BonemealableBlock bonemealable && bonemealable.isValidBonemealTarget(level, target, state, false)) {
                 BlockPos immutable = target.immutable();
                 bonemealable.performBonemeal(level, random, immutable, level.getBlockState(immutable));
                 level.levelEvent(1505, immutable, 15);
@@ -96,7 +93,7 @@ public class GnomeBlockEntity extends BlockEntity {
         double startX = center.x + dirX * 0.9D;
         double startY = center.y + 0.5D;
         double startZ = center.z + dirZ * 0.9D;
-        Arrow arrow = new Arrow(level, startX, startY, startZ, new ItemStack(Items.ARROW), null);
+        Arrow arrow = new Arrow(level, startX, startY, startZ);
         double dx = target.getX() - startX;
         double dy = target.getY(0.5D) - startY;
         double dz = target.getZ() - startZ;
@@ -116,14 +113,14 @@ public class GnomeBlockEntity extends BlockEntity {
     }
 
     @Override
-    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.saveAdditional(tag, registries);
+    protected void saveAdditional(CompoundTag tag) {
+        super.saveAdditional(tag);
         tag.put("StoredData", storedData);
     }
 
     @Override
-    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.loadAdditional(tag, registries);
+    public void load(CompoundTag tag) {
+        super.load(tag);
         if (tag.contains("StoredData")) {
             storedData = tag.getCompound("StoredData");
         }

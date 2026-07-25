@@ -10,7 +10,7 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProc
 public class StructureProcessorInit {
     public static final RegistrationProvider<StructureProcessorType<?>> STRUCTURE_PROCESSORS = RegistrationProvider.get(Registries.STRUCTURE_PROCESSOR, Constants.MODID);
 
-    public static final RegistryObject<StructureProcessorType<?>, StructureProcessorType<GnomeStructureProcessor>> GNOME_FARM =
+    public static final RegistryObject<StructureProcessorType<GnomeStructureProcessor>> GNOME_FARM =
             STRUCTURE_PROCESSORS.register("gnome_farm", () -> () -> GnomeStructureProcessor.CODEC);
 
     public static void loadClass() {

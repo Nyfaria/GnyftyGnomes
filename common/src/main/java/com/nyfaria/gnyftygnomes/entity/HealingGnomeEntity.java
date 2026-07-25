@@ -12,7 +12,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ThrownPotion;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.alchemy.PotionContents;
+import net.minecraft.world.item.alchemy.PotionUtils;
 import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
@@ -61,7 +61,7 @@ public class HealingGnomeEntity extends AbstractGnomeEntity {
     }
 
     private void throwHealingPotion(LivingEntity target) {
-        ItemStack potion = PotionContents.createItemStack(Items.SPLASH_POTION, Potions.HEALING);
+        ItemStack potion = PotionUtils.setPotion(new ItemStack(Items.SPLASH_POTION), Potions.HEALING);
         ThrownPotion thrown = new ThrownPotion(level(), this);
         thrown.setItem(potion);
         double dx = target.getX() - getX();

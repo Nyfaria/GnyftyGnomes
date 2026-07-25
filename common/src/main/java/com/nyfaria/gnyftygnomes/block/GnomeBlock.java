@@ -1,7 +1,5 @@
 package com.nyfaria.gnyftygnomes.block;
 
-import com.mojang.serialization.MapCodec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.nyfaria.gnyftygnomes.entity.AbstractGnomeEntity;
 import com.nyfaria.gnyftygnomes.entity.GnomeType;
 import com.nyfaria.gnyftygnomes.init.BlockInit;
@@ -11,6 +9,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
@@ -31,11 +30,6 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class GnomeBlock extends BaseEntityBlock {
-    public static final MapCodec<GnomeBlock> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-            GnomeType.CODEC.fieldOf("gnome_type").forGetter(GnomeBlock::getGnomeType),
-            propertiesCodec()
-    ).apply(instance, GnomeBlock::new));
-
     private static final VoxelShape SHAPE = Block.box(3.0D, 0.0D, 3.0D, 13.0D, 14.0D, 13.0D);
 
     private final GnomeType type;
@@ -48,11 +42,6 @@ public class GnomeBlock extends BaseEntityBlock {
 
     public GnomeType getGnomeType() {
         return type;
-    }
-
-    @Override
-    protected MapCodec<? extends BaseEntityBlock> codec() {
-        return CODEC;
     }
 
     @Override
@@ -75,21 +64,21 @@ public class GnomeBlock extends BaseEntityBlock {
         if (level.isClientSide()) {
             return null;
         }
-        return createTickerHelper(blockEntityType, BlockInit.GNOME_BLOCK_ENTITY.get(), (lvl, pos, st, be) -> be.serverTick(lvl, pos, st));
+        return createTickerHelper(blockEntityType, BlockInit.GNOME_BLOCK_ENTITY.get(), (lvl, pos, st, be) -> ((GnomeBlockEntity)be).serverTick(lvl, pos, st));
     }
 
     @Override
-    protected RenderShape getRenderShape(BlockState state) {
+    public RenderShape getRenderShape(BlockState state) {
         return RenderShape.MODEL;
     }
 
     @Override
-    protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+    public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
         return SHAPE;
     }
 
     @Override
-    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hit) {
+    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
         if (!level.isClientSide()) {
             EntityType<? extends AbstractGnomeEntity> entityType = EntityInit.getEntityType(type);
             AbstractGnomeEntity gnome = entityType.create(level);

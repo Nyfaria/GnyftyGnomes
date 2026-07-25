@@ -9,3 +9,4 @@ pluginManagement {
 plugins {
     id 'com.nyfaria.moddingtools'
 }
+
