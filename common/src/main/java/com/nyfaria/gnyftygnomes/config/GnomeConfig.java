@@ -25,6 +25,10 @@ public final class GnomeConfig {
     public static final ModConfigSpec.DoubleValue FOLLOW_STOP_DISTANCE;
     public static final ModConfigSpec.DoubleValue FOLLOW_TELEPORT_DISTANCE;
 
+    public static final ModConfigSpec.IntValue PET_HEAL_INTERVAL;
+    public static final ModConfigSpec.DoubleValue PET_HEAL_RADIUS;
+    public static final ModConfigSpec.DoubleValue PET_HEAL_AMOUNT;
+
     public static final ModConfigSpec.IntValue HEALER_BLOCK_INTERVAL;
     public static final ModConfigSpec.IntValue HEALER_BLOCK_RADIUS;
     public static final ModConfigSpec.IntValue WARRIOR_BLOCK_INTERVAL;
@@ -65,6 +69,12 @@ public final class GnomeConfig {
         FOLLOW_RANGE = builder.comment("Follow range attribute for all gnomes").defineInRange("follow_range", 24.0D, 1.0D, 128.0D);
         FOLLOW_STOP_DISTANCE = builder.comment("Distance at which a gnome stops following its owner").defineInRange("follow_stop_distance", 3.0D, 1.0D, 32.0D);
         FOLLOW_TELEPORT_DISTANCE = builder.comment("Distance at which a gnome teleports to its owner").defineInRange("follow_teleport_distance", 15.0D, 4.0D, 128.0D);
+        builder.pop();
+
+        builder.push("pet_healing");
+        PET_HEAL_INTERVAL = builder.comment("Ticks between pulses that heal tamed creatures near a gnome").defineInRange("interval", 200, 1, 12000);
+        PET_HEAL_RADIUS = builder.comment("Radius around a gnome that heals nearby tamed creatures").defineInRange("radius", 5.0D, 1.0D, 64.0D);
+        PET_HEAL_AMOUNT = builder.comment("Health restored per pulse to each nearby tamed creature").defineInRange("amount", 1.0D, 0.0D, 1024.0D);
         builder.pop();
 
         builder.pop();

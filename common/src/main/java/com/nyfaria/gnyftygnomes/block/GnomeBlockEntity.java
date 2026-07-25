@@ -88,10 +88,18 @@ public class GnomeBlockEntity extends BlockEntity {
         if (target == null) {
             return;
         }
-        Arrow arrow = new Arrow(level, center.x, center.y + 0.5D, center.z, new ItemStack(Items.ARROW), null);
-        double dx = target.getX() - arrow.getX();
-        double dy = target.getY(0.5D) - arrow.getY();
-        double dz = target.getZ() - arrow.getZ();
+        double toX = target.getX() - center.x;
+        double toZ = target.getZ() - center.z;
+        double flatDist = Math.sqrt(toX * toX + toZ * toZ);
+        double dirX = flatDist > 1.0E-4D ? toX / flatDist : 0.0D;
+        double dirZ = flatDist > 1.0E-4D ? toZ / flatDist : 0.0D;
+        double startX = center.x + dirX * 0.9D;
+        double startY = center.y + 0.5D;
+        double startZ = center.z + dirZ * 0.9D;
+        Arrow arrow = new Arrow(level, startX, startY, startZ, new ItemStack(Items.ARROW), null);
+        double dx = target.getX() - startX;
+        double dy = target.getY(0.5D) - startY;
+        double dz = target.getZ() - startZ;
         double horizontal = Math.sqrt(dx * dx + dz * dz);
         arrow.shoot(dx, dy + horizontal * 0.2D, dz, 1.6F, 6.0F);
         level.playSound(null, pos, SoundEvents.SKELETON_SHOOT, SoundSource.BLOCKS, 1.0F, 1.0F);

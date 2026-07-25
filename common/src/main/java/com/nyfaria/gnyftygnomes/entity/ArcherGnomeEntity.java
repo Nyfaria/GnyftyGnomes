@@ -54,11 +54,21 @@ public class ArcherGnomeEntity extends AbstractGnomeEntity implements RangedAtta
     @Override
     public void performRangedAttack(LivingEntity target, float velocity) {
         Arrow arrow = new Arrow(level(), this, new ItemStack(Items.ARROW), null);
-        double dx = target.getX() - getX();
-        double dy = target.getY(0.3333D) - arrow.getY();
-        double dz = target.getZ() - getZ();
+        double toX = target.getX() - getX();
+        double toZ = target.getZ() - getZ();
+        double flatDist = Math.sqrt(toX * toX + toZ * toZ);
+        double dirX = flatDist > 1.0E-4D ? toX / flatDist : getLookAngle().x;
+        double dirZ = flatDist > 1.0E-4D ? toZ / flatDist : getLookAngle().z;
+        double margin = getBbWidth() * 0.5D + 0.4D;
+        double startX = getX() + dirX * margin;
+        double startZ = getZ() + dirZ * margin;
+        double startY = getEyeY() - 0.1D;
+        arrow.setPos(startX, startY, startZ);
+        double dx = target.getX() - startX;
+        double dy = target.getY(0.3333D) - startY;
+        double dz = target.getZ() - startZ;
         double horizontal = Math.sqrt(dx * dx + dz * dz);
-        arrow.shoot(dx, dy + horizontal * 0.2D, dz, 1.6F, 12.0F);
+        arrow.shoot(dx, dy + horizontal * 0.2D, dz, 1.6F, 6.0F);
         playSound(SoundEvents.SKELETON_SHOOT, 1.0F, 1.0F / (getRandom().nextFloat() * 0.4F + 0.8F));
         level().addFreshEntity(arrow);
     }

@@ -7,6 +7,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.TamableAnimal;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ThrownPotion;
 import net.minecraft.world.item.ItemStack;
@@ -48,11 +49,12 @@ public class HealingGnomeEntity extends AbstractGnomeEntity {
         AABB area = getBoundingBox().inflate(GnomeConfig.dbl(GnomeConfig.HEALER_HEAL_RADIUS));
         LivingEntity best = null;
         double mostMissing = 0.5D;
-        for (Player player : level().getEntitiesOfClass(Player.class, area, p -> p.isAlive() && p.getHealth() < p.getMaxHealth())) {
-            double missing = player.getMaxHealth() - player.getHealth();
+        for (LivingEntity candidate : level().getEntitiesOfClass(LivingEntity.class, area,
+                e -> (e instanceof Player || e instanceof Villager) && e.isAlive() && e.getHealth() < e.getMaxHealth())) {
+            double missing = candidate.getMaxHealth() - candidate.getHealth();
             if (missing > mostMissing) {
                 mostMissing = missing;
-                best = player;
+                best = candidate;
             }
         }
         return best;

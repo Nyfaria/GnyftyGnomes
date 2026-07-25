@@ -5,6 +5,9 @@ import com.nyfaria.gnyftygnomes.block.GnomeBlockEntity;
 import com.nyfaria.gnyftygnomes.config.GnomeConfig;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.AgeableMob;
@@ -24,6 +27,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.core.BlockPos;
 import net.tslat.smartbrainlib.api.SmartBrainOwner;
 import net.tslat.smartbrainlib.api.core.BrainActivityGroup;
@@ -83,6 +87,26 @@ public abstract class AbstractGnomeEntity extends TamableAnimal implements GeoEn
     }
 
     @Override
+    protected SoundEvent getAmbientSound() {
+        return SoundEvents.VILLAGER_AMBIENT;
+    }
+
+    @Override
+    protected SoundEvent getHurtSound(DamageSource damageSource) {
+        return SoundEvents.VILLAGER_HURT;
+    }
+
+    @Override
+    protected SoundEvent getDeathSound() {
+        return SoundEvents.VILLAGER_DEATH;
+    }
+
+    @Override
+    public float getVoicePitch() {
+        return super.getVoicePitch() * 2.0F;
+    }
+
+    @Override
     protected Brain.Provider<?> brainProvider() {
         return new SmartBrainProvider<>(this);
     }
@@ -91,6 +115,21 @@ public abstract class AbstractGnomeEntity extends TamableAnimal implements GeoEn
     protected void customServerAiStep() {
         tickBrain(this);
         setAggressive(getBrain().hasMemoryValue(MemoryModuleType.ATTACK_TARGET));
+        if (tickCount % GnomeConfig.integer(GnomeConfig.PET_HEAL_INTERVAL) == 0) {
+            healNearbyPets();
+        }
+    }
+
+    private void healNearbyPets() {
+        float amount = (float) GnomeConfig.dbl(GnomeConfig.PET_HEAL_AMOUNT);
+        if (amount <= 0.0F) {
+            return;
+        }
+        AABB area = getBoundingBox().inflate(GnomeConfig.dbl(GnomeConfig.PET_HEAL_RADIUS));
+        for (TamableAnimal pet : level().getEntitiesOfClass(TamableAnimal.class, area,
+                other -> other.isTame() && other.isAlive() && other.getHealth() < other.getMaxHealth())) {
+            pet.heal(amount);
+        }
     }
 
     @Override
