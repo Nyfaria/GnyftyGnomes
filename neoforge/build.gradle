@@ -1,66 +1,22 @@
 plugins {
     id 'multiloader-loader'
     alias(nyfs.plugins.mdg.loader)
-    alias(nyfs.plugins.mod.publish)
     alias(nyfs.plugins.regutils.loader)
+    id 'multiloader-moddev'
+    id("com.nyfaria.moddingtools.dependencies")
+    id("com.nyfaria.moddingtools.publishing")
 }
 
 neoForge {
-    version = nyfs.versions.neoforgeVersion.get()
-    def at = project(":common").file('src/main/resources/META-INF/accesstransformer.cfg')
-    if (at.exists()) {
-        accessTransformers = [at]
-    }
-    mods {
-        "${mod_id}" {
-            sourceSet(sourceSets.main)
-        }
-    }
     runs {
-        client {
-            client()
-            systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
-        }
-        server {
-            server()
-            systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
-            programArgument '--nogui'
-        }
         data {
             data()
             programArguments.addAll '--mod', project.mod_id, '--all', '--output', rootProject.project(":common").file('src/generated/resources/').getAbsolutePath(), '--existing', rootProject.project(":common").file('src/main/resources/').getAbsolutePath()
         }
     }
 }
-sourceSets.main.resources { srcDir project(":common").file('src/generated/resources').getAbsolutePath() }
 
 dependencies {
-    implementation nyfs.geckolib.neoforge
-    implementation nyfs.sbl.neoforge
-}
-
-publishMods {
-    file = jar.archiveFile
-    changelog = project(":common").file("changelog.md").text
-    type = STABLE
-    modLoaders.add("neoforge")
-    displayName = "${mod_name}-${minecraft_version}-[NeoForge]-${project.version}"
-    dryRun = dry_run.toBoolean()
-    if (curseforge_publishing_enabled.toBoolean()) {
-        curseforge {
-            projectId = curseforge_project_id
-            accessToken = curseforge_token
-            minecraftVersions.add(minecraft_version)
-            clientRequired = true
-            serverRequired = true
-            javaVersions.add(JavaVersion.VERSION_21)
-        }
-    }
-    if (modrinth_publishing_enabled.toBoolean()) {
-        modrinth {
-            accessToken = modrinth_token
-            projectId = modrinth_project_id
-            minecraftVersions.add(minecraft_version)
-        }
-    }
+    modDeps.requiredMod(nyfs.geckolib.neoforge, "geckolib", null)
+    modDeps.requiredMod(nyfs.sbl.neoforge, "smartbrainlib", null)
 }
